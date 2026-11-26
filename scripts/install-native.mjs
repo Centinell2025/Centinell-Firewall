@@ -1,0 +1,13 @@
+import fs from 'node:fs';
+import path from 'node:path';
+const app='android/app/src/main';
+const target=path.join(app,'java/com/beaconoftheeagle/centinellfirewall');
+const manifest=path.join(app,'AndroidManifest.xml');
+if(!fs.existsSync(manifest))throw Error('Run npx cap add android first');
+fs.mkdirSync(target,{recursive:true});
+for(const name of ['MainActivity.java','FirewallPlugin.java','FirewallVpnService.java'])fs.copyFileSync('native/android/'+name,path.join(target,name));
+let xml=fs.readFileSync(manifest,'utf8');
+if(!xml.includes('android.permission.FOREGROUND_SERVICE_SPECIAL_USE'))xml=xml.replace('<application','<uses-permission android:name="android.permission.FOREGROUND_SERVICE"/><uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE"/><application');
+if(!xml.includes('.FirewallVpnService'))xml=xml.replace('</application>','<service android:name=".FirewallVpnService" android:exported="true" android:permission="android.permission.BIND_VPN_SERVICE" android:foregroundServiceType="specialUse"><intent-filter><action android:name="android.net.VpnService"/></intent-filter><property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE" android:value="User initiated local network isolation"/></service></application>');
+fs.writeFileSync(manifest,xml);
+console.log('Native isolation components installed');
