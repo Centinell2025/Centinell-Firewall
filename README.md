@@ -1,5 +1,5 @@
 # Centinell Firewall
-Centinell Suite Defense — v0.1.0
+Centinell Suite Defense — v0.2.0
 
 Offline firewall policy simulator. Does not intercept, inspect or block actual network traffic. No server, accounts or paid API required. Local data is stored in browser/WebView storage; export JSON for backup. Do not enter confidential network information in a public demo.
 
@@ -11,3 +11,6 @@ Install Node.js 20+, JDK 21 and Android Studio with the required Android SDK. Ru
 
 ## Validation checklist
 Add an ALLOW TCP rule for 192.0.2.10 port 443. Evaluate matching and nonmatching packets; expect ALLOW and default DENY respectively. Test wildcard rules, priority, invalid input, deletion, reload and report export. Test Android offline and on multiple screen sizes. Native build and device tests are not yet performed.
+
+## Ten modules
+Overview, Policies, Simulator, Assets, Incidents, Audit, Services, Activity, Reports, Settings. Includes local persistence, rule editing and reordering, validated JSON backup restore, and manual incident tracking. Service review is static policy analysis, not a live scan. Android compilation and end-to-end testing remain pending.
